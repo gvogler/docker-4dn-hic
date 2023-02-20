@@ -1,3 +1,10 @@
+### ARM
+* file adapted to be built on Apple Silicon
+  * `ubuntu` `16.04` -> `22.04`
+  * `python` `3.5` -> `3.9`
+  * `Miniconda2-latest-Linux-x86_64.sh` -> `Miniconda3-latest-MacOSX-arm64.sh`
+
+
 ### v43
 * extract-norm
   * `hic2cool` `0.4.1` -> `0.5.1`
