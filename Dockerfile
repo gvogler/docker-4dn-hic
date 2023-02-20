@@ -1,5 +1,13 @@
-FROM ubuntu:16.04
+LABEL "Dockerfile to create docker image on Apple Silicon"
+LABEL "This file is forked from duplexa/4dn-hic:v43 and was \
+edited by Geo Vogler"
+LABEL version="ARM 0.1"
+LABEL description="Docker image to run scripts from 4DN."
+
+
+FROM ubuntu:22.04
 MAINTAINER Soo Lee (duplexa@gmail.com)
+ENV DEBIAN_FRONTEND noninteractive
 
 # 1. general updates & installing necessary Linux components
 RUN apt-get update -y && apt-get install -y \
@@ -16,12 +24,11 @@ RUN apt-get update -y && apt-get install -y \
     zlib1g-dev \
     liblz4-tool
 
-# installing python3.5 & pip
+# installing python3.10.4 & pip
 RUN apt-get update -y && apt-get install -y \
-    python3.5-dev \
     python3-setuptools \
     && wget https://bootstrap.pypa.io/get-pip.py \
-    && python3.5 get-pip.py
+    && python3 get-pip.py
 
 # installing java (for nozzle) - latest java version
 RUN apt-get update -y && apt-get install -y default-jdk 
@@ -29,24 +36,39 @@ RUN apt-get update -y && apt-get install -y default-jdk
 # installing R & dependencies for pairsqc
 # r-base, r-base-dev for R, libcurl4-openssl-dev, libssl-dev for devtools
 RUN apt-get update -y && apt-get install -y \
+    build-essential \
+    libxml2-dev \
     libcurl4-openssl-dev \
     libssl-dev \
     r-base \
     r-base-dev
 
+RUN R -e 'install.packages("remotes")' \
 RUN R -e 'install.packages("devtools", repos="http://cran.us.r-project.org")' \ # devtools 
 RUN R -e 'install.packages( "Nozzle.R1", type="source", repos="http://cran.us.r-project.org" )' \ # nozzle
-RUN R -e 'library(devtools); install_url("https://github.com/SooLee/plotosaurus/archive/0.9.2.zip")' \ # plotosaurus
+RUN R -e 'remotes::install_github("SooLee/plotosaurus")' \ # plotosaurus
 RUN R -e 'install.packages("stringr", repos="http://cran.us.r-project.org" )'
 
+# installing brew & md5sha1sum
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+RUN brew install md5sha1sum
+ENV PATH=/sbin:$PATH
+RUN ls
+
+
 # installing conda
-RUN wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh && bash Miniconda2-latest-Linux-x86_64.sh -p /miniconda2 -b
-ENV PATH=/miniconda2/bin:$PATH
-RUN conda update -y conda \
-    && rm Miniconda2-latest-Linux-x86_64.sh
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+CMD ["sudo ln -s md5sum /bin/md5"]
+CMD ["chmod +x Miniconda3-latest-MacOSX-arm64.sh"]
+CMD ["./Miniconda3-latest-MacOSX-arm64.sh -b -p $HOME/miniconda3 -b"] 
+ENV PATH=/$HOME/miniconda3/bin:$PATH
+CMD ["conda update -y conda"]
+RUN rm Miniconda3-latest-MacOSX-arm64.sh
 
 # installing gawk for juicer
 RUN apt-get update -y && apt-get install -y gawk \
+    gcc-aarch64-linux-gnu\
+    python3-dev \
     && echo 'alias awk=gawk' >> ~/.bashrc
 
 # download tools
