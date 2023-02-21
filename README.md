@@ -42,24 +42,24 @@ Major software tools used inside the docker container are downloaded by the scri
 The `downloads.sh` file also contains comment lines that specifies the name and version of individual software tools.
 
 ## Building docker image
-You need docker daemon to rebuild the docker image. If you want to push it to a different docker repo, replace duplexa/4dn-hic:v43 with your desired docker repo name. You need permission to push to duplexa/4dn-hic:v43.
+You need docker daemon to rebuild the docker image. If you want to push it to a different docker repo, replace geovogler/4dn-hic with your desired docker repo name. You need permission to push to geovogler/4dn-hic.
 ```
-docker build -t duplexa/4dn-hic:v43 .
-docker push duplexa/4dn-hic:v43
+docker build -t geovogler/4dn-hic:ARM .
+docker push geovogler/4dn-hic:AR<
 ```
-You can skip this if you want to use an already built image on docker hub (image name duplexa/4dn-hic:v43). The command 'docker run' (below) automatically pulls the image from docker hub.
+You can skip this if you want to use an already built image on docker hub (image name geovogler/4dn-hic). The command 'docker run' (below) automatically pulls the image from docker hub.
 
 
 ## Benchmarking tools
 To obtain run time and max mem stats, use `usr/bin/time` that is installed in the docker container. For example, run the following to benchmark `du`.
 ```
-docker run duplexa/4dn-hic:v43 /usr/bin/time du 2> log
+docker run geovogler/4dn-hic /usr/bin/time du 2> log
 cat log
 ```
 The output looks as follows:
 ```
-0.02user 0.82system 0:00.87elapsed 96%CPU (0avgtext+0avgdata 2024maxresident)k
-0inputs+0outputs (0major+103minor)pagefaults 0swaps
+0.00user 0.00system 0:00.01elapsed 60%CPU (0avgtext+0avgdata 1776maxresident)k
+56inputs+0outputs (0major+126minor)pagefaults 0swaps
 ```
 The benchmarking result goes to STDERR, which can be collected by a file by redirecting with `2>`.
 Maxmem is 2024KB in this case ('maxresident'). Run time is 0.87 second. ('elapsed')
@@ -74,13 +74,13 @@ Tool wrappers are under the `scripts` directory and follow naming conventions `r
 
 ```
 # default
-docker run duplexa/4dn-hic:v43
+docker run geovogler/4dn-hic
 
 # specific run command
-docker run duplexa/4dn-hic:v43 <run-xx.sh> <arg1> <arg2> ...
+docker run geovogler/4dn-hic <run-xx.sh> <arg1> <arg2> ...
 
 # may need -v option to mount data file/folder if they are used as arguments.
-docker run -v /data1/:/d1/:rw -v /data2/:/d2/:rw duplexa/4dn-hic:v43 <run-xx.sh> /d1/file1 /d2/file2 ...
+docker run -v /data1/:/d1/:rw -v /data2/:/d2/:rw geovogler/4dn-hic <run-xx.sh> /d1/file1 /d2/file2 ...
 ```
 
 ### run-list.sh
