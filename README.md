@@ -33,7 +33,7 @@ This repo contains the source files for a docker image for Apple Silicon/Linux A
 
 ## Cloning the repo
 ```
-git clone https://github.com/4dn-dcic/docker-4dn-hic
+git clone https://github.com/gvogler/docker-4dn-hic
 cd docker-4dn-hic
 ```
 
