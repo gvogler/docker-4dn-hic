@@ -1,6 +1,7 @@
 # Docker-4dn-hic
 
-This repo contains the source files for a docker image stored in duplexa/4dn-hic:v43. (we will change the docker hub account soon)
+This repo contains the source files for a docker image for Apple Silicon/Linux ARM64 stored in geovogler/4dn-hic. It was forked from duplexa/docker-4dn-hic.
+
 
 ## Table of contents
 * [Cloning the repo](#cloning-the-repo)
