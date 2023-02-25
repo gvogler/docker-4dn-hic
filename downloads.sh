@@ -14,35 +14,36 @@ ln -s bwa-0.7.17 bwa
 
 
 ## SOFTWARE: samtools
-## VERSION: 1.2
+## VERSION: 1.17
 ## TYPE: file format converter
 ## SOURCE_URL: https://github.com/samtools/samtools
-wget https://github.com/samtools/samtools/releases/download/1.2/samtools-1.2.tar.bz2
-tar -xjf samtools-1.2.tar.bz2
-cd samtools-1.2
+wget https://github.com/samtools/samtools/releases/download/1.17/samtools-1.17.tar.bz2
+
+tar -xjf samtools-1.17.tar.bz2
+cd samtools-1.17
 make
 cd ..
-ln -s samtools-1.2 samtools
+ln -s samtools-1.17 samtools
 
 
 ## SOFTWARE: pairix
-## VERSION: 0.3.6
+## VERSION: 0.3.7
 ## TYPE: file format converter,indexer
 ## SOURCE_URL: https://github.com/4dn-dcic/pairix
-wget https://github.com/4dn-dcic/pairix/archive/0.3.6.tar.gz
-tar -xzf 0.3.6.tar.gz
-rm 0.3.6.tar.gz
-cd pairix-0.3.6
+wget https://github.com/4dn-dcic/pairix/archive/refs/tags/0.3.7.tar.gz
+tar -xzf 0.3.7.tar.gz
+rm 0.3.7.tar.gz
+cd pairix-0.3.7
 make
 cd ..
 ln -s pairix-0.3.6 pairix
 
 
 ## SOFTWARE: cooler
-## VERSION: 0.8.3
+## VERSION: 0.9.1
 ## TYPE: aggregator,normalizer
 ## SOURCE_URL: https://github.com/mirnylab/cooler
-pip3 install cooler==0.8.3
+pip install --no-cache-dir cooler==0.9.1
 
 
 ## SOFTWARE: pairsqc
@@ -56,38 +57,39 @@ ln -s pairsqc-0.2.3 pairsqc
 
 
 ## SOFTWARE: juicer_tools
-## VERSION: 1.8.9-cuda8
+## VERSION: 2.20.00
 ## TYPE: aggregator,normalizer
 ## SOURCE_URL: https://github.com/theaidenlab/juicebox
-wget http://hicfiles.tc4ga.com.s3.amazonaws.com/public/juicer/juicer_tools.1.8.9_jcuda.0.8.jar
-ln -s /usr/local/bin/juicer_tools.1.8.9_jcuda.0.8.jar juicer_tools.jar
+wget https://github.com/aidenlab/Juicebox/releases/download/v2.20.00/juicer_tools.2.20.00.jar
+ln -s /usr/local/bin/juicer_tools.2.20.00.jar juicer_tools.jar
 
 
 ## SOFTWARE: juicer
-## COMMIT: e6d60097e589878bdf277fba6d88075430041273
+## COMMIT: 290e443dd06f737109e5d93b4f4ae3cadd94ddef
 ## TYPE: aligner,file format converter,sorter,annotater,filter,aggregator,normalizer
 ## SOURCE_URL: https://github.com/theaidenlab/juicer
-git clone https://github.com/SooLee/juicer.git
+git clone -n git@github.com:aidenlab/juicer.git
 cd juicer
+git checkout 290e443dd06f737109e5d93b4f4ae3cadd94ddef
 chmod +x CPU/* CPU/common/*
 ln -s CPU scripts
 cd ..
 
 
 ## SOFTWARE: hic2cool
-## VERSION: 0.5.1
+## VERSION: 0.8.3
 ## TYPE: file format converter
 ## SOURCE_URL: https://github.com/4dn-dcic/hic2cool
-pip3 install hic2cool==0.5.1
+pip3 install hic2cool==0.8.3
 
 
 ## SOFTWARE: pairtools
-## VERSION: 0.2.2
+## VERSION: 1.0.2
 ## TYPE: file format converter,sorter,annotater,filter
 ## SOURCE_URL: https://github.com/mirnylab/pairtools
 conda config --add channels conda-forge
 conda config --add channels bioconda
 conda install -y pbgzip
 conda install -y coreutils
-pip3 install numpy Cython click pairtools==0.2.2
+pip3 install numpy Cython click pairtools==1.0.2
 

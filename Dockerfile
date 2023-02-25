@@ -1,12 +1,11 @@
-LABEL "Dockerfile to create docker image on Apple Silicon"
-LABEL "This file is forked from duplexa/4dn-hic:v43 and was \
-edited by Geo Vogler"
+FROM ubuntu:22.04
+MAINTAINER Soo Lee (duplexa@gmail.com)
+
+LABEL comment="Dockerfile to create docker image on Apple Silicon"
+LABEL comment2="This file is forked from duplexa/4dn-hic:v43 and was edited by Geo Vogler"
 LABEL version="ARM 0.1"
 LABEL description="Docker image to run scripts from 4DN."
 
-
-FROM ubuntu:22.04
-MAINTAINER Soo Lee (duplexa@gmail.com)
 ENV DEBIAN_FRONTEND noninteractive
 
 # 1. general updates & installing necessary Linux components
@@ -24,11 +23,13 @@ RUN apt-get update -y && apt-get install -y \
     zlib1g-dev \
     liblz4-tool
 
-# installing python3.10.4 & pip
+# installing python3 & pip
 RUN apt-get update -y && apt-get install -y \
     python3-setuptools \
     && wget https://bootstrap.pypa.io/get-pip.py \
     && python3 get-pip.py
+# Set to correct python version
+
 
 # installing java (for nozzle) - latest java version
 RUN apt-get update -y && apt-get install -y default-jdk 
